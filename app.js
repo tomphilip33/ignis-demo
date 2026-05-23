@@ -691,7 +691,7 @@ const app = {
             },
             5: {
                 text: "Tomorrow is an empty script. Ditch future-anxiety; map out one small conscious choices where you can show up with more charity and absolute presence.",
-                cit: "— St. Ignatius of Loyola"
+                cit: "— Ignatian Insight"
             }
         };
         
