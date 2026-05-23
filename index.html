@@ -111,6 +111,9 @@
 
             <!-- Sidebar Footer -->
             <div class="sidebar-footer">
+                <div class="sidebar-vault-badge" style="text-align: center; margin-bottom: 0.8rem; opacity: 0.28; font-family: monospace; font-size: 0.68rem; letter-spacing: 0.8px; color: var(--text-secondary);">
+                    [ Vault Status: Local Encrypted ]
+                </div>
                 <span class="credit-text">IGNIS PORTFOLIO PITCH V2.0</span>
             </div>
         </aside>
@@ -341,6 +344,36 @@
                         
                         <div class="analysis-meter-box">
                             <h3>Spiritual Balance Indicator</h3>
+                            
+                            <!-- meditational SVG Balance Scale -->
+                            <div class="scale-chart-container" style="display: flex; justify-content: center; margin-bottom: 1.5rem; margin-top: 1rem;">
+                                <svg viewBox="0 0 200 100" class="alignment-scale-svg" style="width: 100%; max-width: 280px; height: auto;">
+                                    <!-- Base Stand -->
+                                    <path d="M85 95 L115 95 L108 85 L92 85 Z" fill="var(--text-muted)" />
+                                    <line x1="100" y1="85" x2="100" y2="28" stroke="var(--text-muted)" stroke-width="3" stroke-linecap="round" />
+                                    <!-- Pivot Dot -->
+                                    <circle cx="100" cy="28" r="3.5" fill="var(--accent-gold)" />
+                                    
+                                    <!-- Rotating Balance Beam (Transition matches transforms in app.js) -->
+                                    <g id="scale-beam-group" style="transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: 100px 28px;">
+                                        <!-- Main crossbar line -->
+                                        <line x1="35" y1="28" x2="165" y2="28" stroke="var(--text-primary)" stroke-width="2.5" stroke-linecap="round" />
+                                        
+                                        <!-- Left Side: Consolations Hook & Pan -->
+                                        <line x1="35" y1="28" x2="35" y2="52" stroke="var(--text-secondary)" stroke-width="1" />
+                                        <path d="M20 52 L50 52 A 15 15 0 0 0 35 67 Z" fill="rgba(255, 179, 0, 0.1)" stroke="var(--accent-gold)" stroke-width="1.2" />
+                                        <!-- Indicator Lights inside pan -->
+                                        <circle cx="35" cy="50" r="3" fill="var(--accent-gold)" id="scale-consolations-indicator" opacity="0" style="transition: opacity 0.4s ease;" />
+                                        
+                                        <!-- Right Side: Desolations Hook & Pan -->
+                                        <line x1="165" y1="28" x2="165" y2="52" stroke="var(--text-secondary)" stroke-width="1" />
+                                        <path d="M150 52 L180 52 A 15 15 0 0 1 165 67 Z" fill="rgba(255, 69, 0, 0.08)" stroke="var(--accent-red)" stroke-width="1.2" />
+                                        <!-- Indicator Lights inside pan -->
+                                        <circle cx="165" cy="50" r="3" fill="var(--accent-red)" id="scale-desolations-indicator" opacity="0" style="transition: opacity 0.4s ease;" />
+                                    </g>
+                                </svg>
+                            </div>
+
                             <div class="meter-container">
                                 <div class="meter-bar" id="analysis-meter">
                                     <span class="meter-label" id="analysis-meter-text">Neutral (0)</span>
@@ -410,7 +443,7 @@
                             <!-- Week 1 Content (Default) -->
                             <div class="week-detail active" data-week-content="1">
                                 <h3>Level I: Detoxing Attachments & Accepting Grace</h3>
-                                <p>Unpack the background noise and habits blocking your soul. Ditch "inordinate attachments" that restrict your freedom, and connect with the reality of absolute, infinite, and unconditional mercy.</p>
+                                <p>Unpack the background noise and habits blocking your soul. Audit your attachments: separate true freedom from the noise, and connect with the reality of absolute, infinite, and unconditional mercy.</p>
                                 
                                 <div class="spiritual-exercise-block">
                                     <h4>Liturgical Vibe Check: Sacred Reading</h4>
@@ -499,8 +532,14 @@
                             <input type="text" id="exercise-title" class="input-text" placeholder="e.g., Imaginative Contemplation on Mark 1:16">
                         </div>
 
-                        <div class="form-group">
-                            <label for="exercise-journal">Breakthroughs & Movements:</label>
+                        <div class="form-group" style="position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                                <label for="exercise-journal" style="margin-bottom: 0;">Breakthroughs & Movements:</label>
+                                <label class="zen-toggle-label" style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; cursor: pointer; color: var(--text-secondary); transition: var(--transition-smooth); user-select: none;">
+                                    <input type="checkbox" id="zen-mode-checkbox" style="cursor: pointer; accent-color: var(--accent-violet);"> 
+                                    <span>Zen Focus Mode 🌌</span>
+                                </label>
+                            </div>
                             <textarea class="journal-input medium-input" id="exercise-journal" placeholder="What moved your soul today? Where did you feel resistance? Speak honestly..."></textarea>
                         </div>
 

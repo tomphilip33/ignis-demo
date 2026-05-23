@@ -519,7 +519,11 @@ body {
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--border-glass);
-    box-shadow: var(--shadow-neon);
+    box-shadow: 0 16px 50px -10px var(--glow-aura-color, rgba(139, 92, 246, 0.15)), 
+                0 0 1px 1px var(--border-glass) inset;
+    transition: box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card {
@@ -872,6 +876,26 @@ select.input-text {
     min-height: 550px;
     display: flex;
     flex-direction: column;
+    animation: breath-pacer-pulse 12s ease-in-out infinite;
+}
+
+@keyframes breath-pacer-pulse {
+    0% {
+        border-color: var(--border-glass-violet);
+        box-shadow: var(--shadow-neon);
+    }
+    33.33% {
+        border-color: var(--accent-violet);
+        box-shadow: 0 0 25px var(--accent-violet-glow), var(--shadow-neon);
+    }
+    66.66% {
+        border-color: var(--accent-violet);
+        box-shadow: 0 0 25px var(--accent-violet-glow), var(--shadow-neon);
+    }
+    100% {
+        border-color: var(--border-glass-violet);
+        box-shadow: var(--shadow-neon);
+    }
 }
 
 .examen-reflection-sidebar {
@@ -919,7 +943,12 @@ select.input-text {
 .examen-step.active {
     display: flex;
     flex-direction: column;
-    animation: fade-slide-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: meditative-fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes meditative-fade-in {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .step-title {
@@ -1654,17 +1683,20 @@ select.input-text {
    ========================================================================== */
 .notification-toast {
     position: fixed;
-    bottom: 2.2rem;
+    top: 2.2rem;
+    bottom: auto;
     right: 2.2rem;
-    background-color: var(--bg-sidebar);
-    border: 1px solid var(--border-glass-violet);
-    box-shadow: var(--shadow-neon);
-    padding: 1rem 1.8rem;
-    border-radius: var(--radius-sm);
+    background-color: rgba(14, 11, 22, 0.95);
+    border: 1px solid var(--accent-violet);
+    box-shadow: 0 0 20px var(--accent-violet-glow), var(--shadow-neon);
+    padding: 0.8rem 1.6rem;
+    border-radius: 4px;
     color: var(--text-primary);
-    font-size: 0.9rem;
-    font-weight: 600;
-    z-index: 1000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    z-index: 10000;
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
     transform: translateY(0);
     backdrop-filter: blur(20px);
@@ -1673,7 +1705,7 @@ select.input-text {
 
 .notification-toast.hidden {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-20px);
     pointer-events: none;
 }
 
@@ -2057,5 +2089,128 @@ select.input-text {
     .hero-graphic-container {
         display: none !important;
     }
+}
+
+/* ==========================================================================
+   Zen Focus Mode Styling
+   ========================================================================== */
+body.zen-active {
+    overflow: hidden !important;
+}
+
+body.zen-active .sidebar,
+body.zen-active .app-header,
+body.zen-active .week-picker-card,
+body.zen-active .week-logging-card > h2,
+body.zen-active .week-logging-card > .section-intro,
+body.zen-active .week-logging-card .form-group:first-of-type,
+body.zen-active .week-logging-card .discernment-actions,
+body.zen-active .week-logging-card hr,
+body.zen-active .week-logging-card h3,
+body.zen-active .week-logging-card .exercise-logs-list {
+    display: none !important;
+}
+
+body.zen-active .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: radial-gradient(circle at center, #120e24 0%, #08060c 100%) !important;
+    transition: background 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.light-theme.zen-active .main-content {
+    background: radial-gradient(circle at center, #fbfaf7 0%, #ecdcb9 100%) !important;
+}
+
+body.zen-active .exercises-container {
+    width: 100vw !important;
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+body.zen-active .week-logging-card {
+    width: 90vw !important;
+    max-width: 800px !important;
+    height: 80vh !important;
+    border: 1px solid rgba(138, 43, 226, 0.3) !important;
+    background: rgba(10, 8, 16, 0.65) !important;
+    box-shadow: 0 0 50px rgba(138, 43, 226, 0.25) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 2.5rem !important;
+    border-radius: var(--radius-lg) !important;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.light-theme.zen-active .week-logging-card {
+    border: 1px solid rgba(184, 134, 11, 0.3) !important;
+    background: rgba(250, 245, 230, 0.8) !important;
+    box-shadow: 0 0 50px rgba(184, 134, 11, 0.15) !important;
+}
+
+body.zen-active .week-logging-card .form-group {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+}
+
+body.zen-active .week-logging-card .journal-input {
+    flex-grow: 1 !important;
+    height: 100% !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 2rem !important;
+    color: var(--text-primary) !important;
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    resize: none !important;
+    outline: none !important;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6) !important;
+    font-family: inherit !important;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.light-theme.zen-active .week-logging-card .journal-input {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05) !important;
+    color: hsl(240, 20%, 12%) !important;
+}
+
+body.zen-active .zen-toggle-label {
+    position: fixed !important;
+    top: 2.2rem !important;
+    right: 2.2rem !important;
+    z-index: 10000 !important;
+    background: rgba(18, 14, 36, 0.85) !important;
+    border: 1px solid rgba(138, 43, 226, 0.4) !important;
+    padding: 0.7rem 1.4rem !important;
+    border-radius: 50px !important;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3) !important;
+    color: var(--accent-gold) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    font-weight: 600 !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.light-theme.zen-active .zen-toggle-label {
+    background: rgba(250, 245, 230, 0.9) !important;
+    border: 1px solid rgba(184, 134, 11, 0.4) !important;
+    box-shadow: 0 0 15px rgba(184, 134, 11, 0.2) !important;
+    color: var(--accent-gold) !important;
 }
 

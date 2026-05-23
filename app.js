@@ -119,6 +119,20 @@ const app = {
         // Spiritual Exercises Logs saver
         document.getElementById('btn-save-exercise').addEventListener('click', () => this.saveExerciseLog());
 
+        // Zen Focus Mode toggle
+        const zenCheckbox = document.getElementById('zen-mode-checkbox');
+        if (zenCheckbox) {
+            zenCheckbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    document.body.classList.add('zen-active');
+                    this.showToast('Zen Focus Mode active 🌌');
+                } else {
+                    document.body.classList.remove('zen-active');
+                    this.showToast('Main dashboard restored 🕯️');
+                }
+            });
+        }
+
         // Simulated Authentication tabs toggles
         document.getElementById('tab-login-btn').addEventListener('click', () => this.toggleAuthTab('login'));
         document.getElementById('tab-signup-btn').addEventListener('click', () => this.toggleAuthTab('signup'));
@@ -697,7 +711,7 @@ const app = {
 
         this.incrementStreak();
 
-        this.showToast('Vibe check saved! Streak active 🔥');
+        this.showToast('-> Entry written to local block');
         
         for (let i = 1; i <= 5; i++) {
             document.getElementById(`examen-input-${i}`).value = '';
@@ -838,6 +852,38 @@ ${entry.step5 || 'Empty'}
         
         meter.style.width = `${percentage}%`;
 
+        // SVG Scale Beam rotation
+        const beam = document.getElementById('scale-beam-group');
+        if (beam) {
+            const angle = -(clampedVal / 25) * 15; // negative rotates left down, positive right down
+            beam.style.transform = `rotate(${angle}deg)`;
+        }
+
+        // SVG Scale pan indicator lights
+        const cIndicator = document.getElementById('scale-consolations-indicator');
+        const dIndicator = document.getElementById('scale-desolations-indicator');
+        if (cIndicator && dIndicator) {
+            if (total > 0) {
+                cIndicator.style.opacity = '1';
+                dIndicator.style.opacity = '0';
+            } else if (total < 0) {
+                cIndicator.style.opacity = '0';
+                dIndicator.style.opacity = '1';
+            } else {
+                cIndicator.style.opacity = '0';
+                dIndicator.style.opacity = '0';
+            }
+        }
+
+        // Dynamic glass-panel glow shifts based on dominant wave
+        if (total > 0) {
+            document.documentElement.style.setProperty('--glow-aura-color', 'rgba(255, 191, 0, 0.25)'); // Amber/gold
+        } else if (total < 0) {
+            document.documentElement.style.setProperty('--glow-aura-color', 'rgba(99, 102, 241, 0.25)'); // Indigo/obsidian
+        } else {
+            document.documentElement.style.setProperty('--glow-aura-color', 'rgba(139, 92, 246, 0.15)'); // default violet
+        }
+
         if (total > 0) {
             meterText.textContent = `Consolation Active (+${total})`;
             caption.textContent = "Spiritual Consolation detected. Ignatius guides us to stick firmly to our initial spiritual goals and share our inner peace with those suffering.";
@@ -865,7 +911,11 @@ ${entry.step5 || 'Empty'}
 
         let question = '';
 
-        if (fullText.includes('fear') || fullText.includes('anxious') || fullText.includes('scared') || fullText.includes('worry')) {
+        if (fullText.includes('career') || fullText.includes('job') || fullText.includes('move') || fullText.includes('transition')) {
+            question = "Are you moving toward a greater freedom to serve, or running from an attachment you fear confronting? Ignatius warns of 'spiritual ambition'—is this shift driven by status, or does it expand your capacity for quiet service to others?";
+        } else if (fullText.includes('relationship')) {
+            question = "St. Ignatius invites us to love in a way that is free, not clinging. Does this connection elevate your soul to seek the truth, or are you clinging to it to shield yourself from your own inner void?";
+        } else if (fullText.includes('fear') || fullText.includes('anxious') || fullText.includes('scared') || fullText.includes('worry')) {
             question = "I notice fear or worry is highly visible in your logs. St. Ignatius teaches that the 'spirit of desolation' uses fear to trap our freedom. Can you look beneath the static: does this fear stem from constructive caution, or is it trying to isolate you?";
         } else if (fullText.includes('money') || fullText.includes('wealth') || fullText.includes('salary') || fullText.includes('status')) {
             question = "Your decision touches on security, wealth, or status. Ignatius advocates a spirit of 'holy indifference'—desiring only what fosters genuine love. If both choices paid exactly the same and had the same profile, which would you pick?";
