@@ -45,6 +45,7 @@ const app = {
         this.renderDiscernmentLists();
         this.renderSavedDecisions();
         this.renderExerciseLogs();
+        this.renderFeedbackLogs();
         this.updateDiscernmentMeter();
         this.updateStreakDisplay();
     },
@@ -148,6 +149,15 @@ const app = {
         // Simulated OTP Verification actions
         document.getElementById('btn-otp-cancel').addEventListener('click', () => this.hideOTPModal());
         document.getElementById('btn-otp-verify').addEventListener('click', () => this.verifyOTP());
+
+        // Feedback & Developer Hub submit action
+        const feedbackForm = document.getElementById('feedback-form');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.submitFeedback();
+            });
+        }
     },
 
     // Single Page App View Navigator
@@ -1117,6 +1127,63 @@ Logged Reflection:
             `;
             div.addEventListener('click', () => {
                 alert(`Level ${log.week}: ${log.title}\nDate: ${log.date}\n------------------\n${log.journal}`);
+            });
+            list.appendChild(div);
+        });
+    },
+
+    submitFeedback() {
+        const type = document.getElementById('feedback-type').value;
+        const email = document.getElementById('feedback-email').value.trim();
+        const details = document.getElementById('feedback-details').value.trim();
+
+        if (!details) {
+            alert("Please input some details for your feedback before submitting.");
+            return;
+        }
+
+        const entry = {
+            id: Date.now().toString(),
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            type: type,
+            email: email || "Anonymous Pilgrim",
+            details: details
+        };
+
+        const list = JSON.parse(localStorage.getItem('feedback_history') || '[]');
+        list.unshift(entry);
+        localStorage.setItem('feedback_history', JSON.stringify(list));
+
+        // Clear details input
+        document.getElementById('feedback-details').value = '';
+        document.getElementById('feedback-email').value = '';
+
+        this.showToast('-> Feedback logged to local block');
+        this.renderFeedbackLogs();
+    },
+
+    renderFeedbackLogs() {
+        const list = document.getElementById('feedback-logs-list');
+        const logs = JSON.parse(localStorage.getItem('feedback_history') || '[]');
+
+        if (logs.length === 0) {
+            list.innerHTML = '<p class="empty-state">No feedback logged yet. Your suggestions will be saved locally in your vault!</p>';
+            return;
+        }
+
+        list.innerHTML = '';
+        logs.forEach(log => {
+            const div = document.createElement('div');
+            div.className = 'feedback-item';
+            div.innerHTML = `
+                <div class="item-header">
+                    <span>${log.type} (${log.email})</span>
+                    <span>${log.date}</span>
+                </div>
+                <div class="item-body" style="white-space: normal; overflow: visible; text-overflow: clip;">${log.details}</div>
+            `;
+            div.addEventListener('click', () => {
+                alert(`Submission Type: ${log.type}\nFrom: ${log.email}\nDate: ${log.date}\n------------------\n${log.details}`);
             });
             list.appendChild(div);
         });

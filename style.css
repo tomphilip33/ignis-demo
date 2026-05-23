@@ -1005,7 +1005,7 @@ select.input-text {
 }
 
 /* History listing scrollboxes */
-.examen-history-list, .saved-decisions-list, .exercise-logs-list {
+.examen-history-list, .saved-decisions-list, .exercise-logs-list, .feedback-logs-list {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -1023,17 +1023,17 @@ select.input-text {
     font-style: italic;
 }
 
-.history-item, .decision-item, .log-item {
+.history-item, .decision-item, .log-item, .feedback-item {
     background: hsla(240, 100%, 100%, 0.01);
     border: 1px solid var(--border-glass);
     border-radius: var(--radius-md);
-    padding: 1rem;
+    padding: 1.2rem;
     font-size: 0.85rem;
     cursor: pointer;
     transition: var(--transition-smooth);
 }
 
-.history-item:hover, .decision-item:hover, .log-item:hover {
+.history-item:hover, .decision-item:hover, .log-item:hover, .feedback-item:hover {
     border-color: var(--accent-violet);
     background: hsla(262, 83%, 58%, 0.02);
 }

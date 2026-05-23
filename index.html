@@ -704,6 +704,46 @@
                         </p>
                     </div>
 
+                    <!-- Feedback & Developer Hub Card -->
+                    <div class="card glass-panel feedback-card" style="grid-column: span 12; margin-top: 1rem;">
+                        <h2>Feedback & Developer Hub 🛠️</h2>
+                        <p class="section-intro">Help us expand the sanctuary. Share bugs, request features, or suggest improvements to cultivate a deeper digital meditation experience.</p>
+                        
+                        <form id="feedback-form" onsubmit="event.preventDefault();">
+                            <div class="grid-layout" style="gap: 1.5rem; margin-bottom: 1.2rem;">
+                                <div class="form-group" style="grid-column: span 6; margin-bottom: 0;">
+                                    <label for="feedback-type">Type of Submission:</label>
+                                    <select id="feedback-type" class="input-text" style="width: 100%;">
+                                        <option value="✨ Feature Request">✨ Feature Request</option>
+                                        <option value="🐞 Bug Report">🐞 Bug Report</option>
+                                        <option value="⚡ Performance Improvement">⚡ Performance Improvement</option>
+                                        <option value="💬 General Feedback">💬 General Feedback</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="grid-column: span 6; margin-bottom: 0;">
+                                    <label for="feedback-email">Email or Soul Tag (Optional):</label>
+                                    <input type="text" id="feedback-email" class="input-text" placeholder="e.g., anonymous_pilgrim" style="width: 100%;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="feedback-details">Your Message / Idea / Glitch description:</label>
+                                <textarea class="journal-input" id="feedback-details" placeholder="Tell the developer what is on your mind..." style="min-height: 120px;"></textarea>
+                            </div>
+                            
+                            <div class="discernment-actions" style="margin-top: 1.2rem;">
+                                <button type="submit" class="btn btn-primary" id="btn-submit-feedback">Submit Feedback Entry 🪐</button>
+                            </div>
+                        </form>
+
+                        <hr class="divider" style="margin: 2.2rem 0;">
+
+                        <h3>Submitted Feedback Logs</h3>
+                        <div class="feedback-logs-list" id="feedback-logs-list">
+                            <p class="empty-state">No feedback logged yet. Your suggestions will be saved locally in your vault!</p>
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </main>
