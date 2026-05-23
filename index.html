@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ignis — Cyber-Monastic Vibe Check & Spiritual Alignment Lab</title>
+    <!-- Google Fonts: Space Grotesk for high-end geometric headers, Outfit for body and UI subheads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <!-- Animated Cyber-Monastic Aurora Ambient Background Lights -->
+    <div class="aurora-glow glow-1"></div>
+    <div class="aurora-glow glow-2"></div>
+    <div class="aurora-glow glow-3"></div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container" onclick="app.switchView('pitch-hub')" style="cursor: pointer;">
+                    <!-- SVG logo evoking a Jesuit-like flame/sunburst monogram, modernized -->
+                    <svg viewBox="0 0 100 100" class="app-logo">
+                        <defs>
+                            <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#FFD700" />
+                                <stop offset="60%" stop-color="#8B5CF6" />
+                                <stop offset="100%" stop-color="#000" stop-opacity="0" />
+                            </radialGradient>
+                            <linearGradient id="flame-grad" x1="0%" x2="100%" y1="100%" y2="0%">
+                                <stop offset="0%" stop-color="#8B5CF6" />
+                                <stop offset="40%" stop-color="#EC4899" />
+                                <stop offset="100%" stop-color="#FFB300" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Radiating Sun Rays -->
+                        <g class="sun-rays">
+                            <line x1="50" y1="5" x2="50" y2="20" stroke="url(#flame-grad)" stroke-width="3.5" stroke-linecap="round" />
+                            <line x1="50" y1="95" x2="50" y2="80" stroke="url(#flame-grad)" stroke-width="3.5" stroke-linecap="round" />
+                            <line x1="5" y1="50" x2="20" y2="50" stroke="url(#flame-grad)" stroke-width="3.5" stroke-linecap="round" />
+                            <line x1="95" y1="50" x2="80" y2="50" stroke="url(#flame-grad)" stroke-width="3.5" stroke-linecap="round" />
+                            <line x1="18" y1="18" x2="30" y2="30" stroke="url(#flame-grad)" stroke-width="3" stroke-linecap="round" />
+                            <line x1="82" y1="82" x2="70" y2="70" stroke="url(#flame-grad)" stroke-width="3.5" stroke-linecap="round" />
+                            <line x1="18" y1="82" x2="30" y2="70" stroke="url(#flame-grad)" stroke-width="3" stroke-linecap="round" />
+                            <line x1="82" y1="18" x2="70" y2="30" stroke="url(#flame-grad)" stroke-width="3" stroke-linecap="round" />
+                        </g>
+                        <!-- Central Sacred Flame Element -->
+                        <path d="M50 22 C64 38, 68 50, 58 64 C70 60, 72 74, 50 82 C28 74, 30 60, 42 64 C32 50, 36 38, 50 22 Z" fill="url(#flame-grad)" class="logo-flame" />
+                    </svg>
+                    <div class="logo-text">
+                        <span class="logo-title">IGNIS</span>
+                        <span class="logo-subtitle">Cyber-Monastic Lab</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Streak Counter Badge inside Sidebar -->
+            <div class="sidebar-streak-badge glass-panel" onclick="app.switchView('soul-space')" style="cursor: pointer;">
+                <div class="streak-badge-content">
+                    <span class="streak-flame-icon animated-flame">🔥</span>
+                    <div class="streak-badge-text">
+                        <span class="streak-count-number" id="sidebar-streak-count">0 Days</span>
+                        <span class="streak-count-label">Spiritual Momentum</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="pitch-hub" id="nav-pitch-hub">
+                    <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16h2v2h-2zm0-6h2v4h-2z" fill="currentColor"/></svg>
+                    <span>Pitch Deck</span>
+                </button>
+                <button class="nav-item" data-view="examen-journal" id="nav-examen-journal">
+                    <svg viewBox="0 0 24 24" class="nav-icon"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.3L11 12.6V7h1.5v4.9l3.55 2.1-.76 1.3z" fill="currentColor"/></svg>
+                    <span>Daily Vibe Check</span>
+                </button>
+                <button class="nav-item" data-view="discernment-coach" id="nav-discernment-coach">
+                    <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" fill="currentColor"/></svg>
+                    <span>Alignment Lab</span>
+                </button>
+                <button class="nav-item" data-view="spiritual-exercises" id="nav-spiritual-exercises">
+                    <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.2 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55zM12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" fill="currentColor"/></svg>
+                    <span>Soul Workouts</span>
+                </button>
+                <button class="nav-item" data-view="soul-space" id="nav-soul-space">
+                    <svg viewBox="0 0 24 24" class="nav-icon"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/></svg>
+                    <span>Soul Space Profile</span>
+                </button>
+            </nav>
+
+            <!-- Soundscape Ambient Controller -->
+            <div class="sidebar-soundscape glass-panel">
+                <div class="soundscape-header">
+                    <svg viewBox="0 0 24 24" class="sound-icon"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="currentColor"/></svg>
+                    <span>Soundscape Zen</span>
+                </div>
+                <div class="audio-control-row">
+                    <button class="btn-audio" id="btn-sound-pad" title="Play Ambient Synth Pad">
+                        <span>Lumina Pad</span>
+                    </button>
+                    <button class="btn-audio" id="btn-sound-rain" title="Play Soothing Rain">
+                        <span>Zen Rain</span>
+                    </button>
+                </div>
+                <div class="volume-slider-container">
+                    <input type="range" id="volume-slider" min="0" max="100" value="50" class="slider" aria-label="Audio Volume">
+                </div>
+            </div>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <span class="credit-text">IGNIS PORTFOLIO PITCH V2.0</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="app-header">
+                <div class="header-welcome">
+                    <span class="date-today" id="current-date">Saturday, May 23, 2026</span>
+                    <h1 class="page-title" id="page-title">Ignis Portfolio Pitch Hub</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="header-streak-pill hidden" id="header-streak-pill" onclick="app.switchView('soul-space')">
+                        <span class="streak-flame-icon">🔥</span>
+                        <span id="header-streak-count">0 Days</span>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-reset-data">Reset All</button>
+                </div>
+            </header>
+
+            <!-- VIEW 1: Pitch Hub (Default) -->
+            <section class="view-panel active" id="view-pitch-hub">
+                <div class="hero-banner glass-panel">
+                    <div class="hero-content">
+                        <span class="tagline">Gen Z Freelancer Pitch Kit</span>
+                        <h2>Interactive Cyber-Monastic Spiritual Gym</h2>
+                        <p>Welcome, developer! <strong>Ignis</strong> is an ultra-premium, interactive portfolio piece. It demonstrates how to pitch highly aesthetic, privacy-first, and Socratic digital tools to modern Jesuit institutions (retreat centers, high schools, universities, parishes).</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="app.switchView('examen-journal')">Start Daily Vibe Check 🙏</button>
+                            <button class="btn btn-secondary" onclick="app.switchView('discernment-coach')">Open Alignment Lab ✨</button>
+                        </div>
+                    </div>
+                    <div class="hero-graphic">
+                        <div class="glowing-cross"></div>
+                    </div>
+                </div>
+
+                <div class="grid-layout">
+                    <!-- Column 1: Core Pitch Propositions -->
+                    <div class="card glass-panel pitch-proposals">
+                        <h3>Fostering the Jesuit Mission in a Gen Z World</h3>
+                        <div class="proposal-item">
+                            <div class="proposal-number">01</div>
+                            <div class="proposal-text">
+                                <h4>Accompaniment of Youth</h4>
+                                <p>Jesuits are heavily invested in youth formation (UAP 3). By replacing dry theological manuals with interactive, neon-glassmorphism layouts, you make Ignatian contemplation attractive and intuitive to young adults.</p>
+                            </div>
+                        </div>
+                        <div class="proposal-item">
+                            <div class="proposal-number">02</div>
+                            <div class="proposal-text">
+                                <h4>Gamifying Commitment without Noise</h4>
+                                <p>Typical habit trackers leverage toxic notifications. Ignis introduces "Spiritual Momentum" streaks, celebrating continuous days of mindfulness and Socratic reflection under complete privacy.</p>
+                            </div>
+                        </div>
+                        <div class="proposal-item">
+                            <div class="proposal-number">03</div>
+                            <div class="proposal-text">
+                                <h4>Authentic Socratic Mirroring</h4>
+                                <p>Rather than letting AI replace critical thinking, Ignis’s simulated Socratic Coach models a "formation guide"—it reads entries, flags emotional movements, and asks questions instead of generating answers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Pitch Customizations -->
+                    <div class="card glass-panel pitch-tech">
+                        <h3>Interactive Portfolio Quick-Pitch</h3>
+                        <p>This prototype demonstrates lightning-fast client-side operations. When presenting to potential Jesuit organizations, universities, or dioceses, propose these custom upgrades:</p>
+                        <ul class="pitch-bullets">
+                            <li>
+                                <strong>Secure Cloud Synchronization</strong>
+                                <p>Deploy a privacy-vetted database (Firebase/Supabase) enabling users to access their "Soul Space" dashboard securely across mobile and desktop devices.</p>
+                            </li>
+                            <li>
+                                <strong>Live Gemini AI (Google Antigravity SDK)</strong>
+                                <p>Integrate a real-time Socratic assistant trained securely on the direct texts of St. Ignatius, Jesuit archives, and Pope Francis’s encyclicals (*Laudato si’*, *Fratelli tutti*).</p>
+                            </li>
+                            <li>
+                                <strong>Parish Laudato Si' Action Hub</strong>
+                                <p>Extend the app to parish-wide ecology trackers, gamifying trash cleanup drives, tree planting, and local recycling initiatives.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card glass-panel full-width-card">
+                    <h3>Explore the Interactive Prototype</h3>
+                    <p>Navigate the sidebar tabs (or use the bottom bar on mobile screens) to test the app features. Complete a daily vibe check or log a decision case to witness your streak increase and see your data persist locally inside your browser's localStorage vault!</p>
+                </div>
+            </section>
+
+            <!-- VIEW 2: Daily Examen (Daily Vibe Check) -->
+            <section class="view-panel" id="view-examen-journal">
+                <div class="examen-container grid-layout">
+                    <!-- Active Examen Step Work Area -->
+                    <div class="card glass-panel examen-workspace">
+                        <div class="examen-stepper">
+                            <span class="stepper-indicator">Vibe Check: Step 1 of 5</span>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 20%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Gratitude -->
+                        <div class="examen-step active" data-step="1">
+                            <h2 class="step-title">1. Gratitude 🙏 (Blessing Drop)</h2>
+                            <p class="step-description">Drop some thankfulness. Recall concrete blessings of your day—big or small. What made you smile? Who showed you love? Acknowledge it fully.</p>
+                            <textarea class="journal-input" id="examen-input-1" placeholder="What are you genuinely grateful for today? Reflect and jot it down..."></textarea>
+                        </div>
+
+                        <!-- Step 2: Petition -->
+                        <div class="examen-step" data-step="2">
+                            <h2 class="step-title">2. Petition 🕯️ (Ask for Clarity)</h2>
+                            <p class="step-description">Ask the Spirit of Truth for complete transparency. Request the grace to inspect your heart, thoughts, and actions today without heavy self-judgment or filters.</p>
+                            <textarea class="journal-input" id="examen-input-2" placeholder="Ask for the wisdom to see your day clearly through a lens of truth and self-love..."></textarea>
+                        </div>
+
+                        <!-- Step 3: Review -->
+                        <div class="examen-step" data-step="3">
+                            <h2 class="step-title">3. Review 🔍 (Interior Vibe Check)</h2>
+                            <p class="step-description">Hour by hour, replay your day. Note your reactions, conversations, and emotional changes. Where did you feel energy, hope, and connection (*Consolation*)? Where did you feel drained, fearful, or defensive (*Desolation*)?</p>
+                            <textarea class="journal-input" id="examen-input-3" placeholder="Replay your day hour by hour. Note your vibes, actions, and reactions..."></textarea>
+                        </div>
+
+                        <!-- Step 4: Forgiveness -->
+                        <div class="examen-step" data-step="4">
+                            <h2 class="step-title">4. Forgiveness 🤍 (Reset & Restore)</h2>
+                            <p class="step-description">Acknowledge where you fell short, acted out of selfishness, or caused harm. Gently drop those failures into the infinite ocean of mercy. You are forgiven—breathe in the grace.</p>
+                            <textarea class="journal-input" id="examen-input-4" placeholder="Let go of your failures. Offer them to unconditional mercy and restore your peace..."></textarea>
+                        </div>
+
+                        <!-- Step 5: Resolve -->
+                        <div class="examen-step" data-step="5">
+                            <h2 class="step-title">5. Resolve ⚡ (Look Ahead)</h2>
+                            <p class="step-description">Look forward to tomorrow with hopeful anticipation. Plan one small, conscious choice where you can show more patience, kindness, or courage. Resolve to live intentionally.</p>
+                            <textarea class="journal-input" id="examen-input-5" placeholder="How do you want to show up tomorrow? Write down your resolve..."></textarea>
+                        </div>
+
+                        <div class="examen-actions">
+                            <button class="btn btn-secondary" id="btn-examen-prev" disabled>Back</button>
+                            <button class="btn btn-primary" id="btn-examen-next">Next Step ⚡</button>
+                            <button class="btn btn-primary hidden" id="btn-examen-finish">Lock In Vibe Check 🔥</button>
+                        </div>
+                    </div>
+
+                    <!-- Examen Companion / Sidebar Reflections -->
+                    <div class="card glass-panel examen-reflection-sidebar">
+                        <h3>Monastic Wisdom</h3>
+                        <div class="guidance-box" id="examen-guidance-content">
+                            <p class="guidance-text">"Gratitude is the foundation of all Ignatian prayer. St. Ignatius believed that ingratitude is the root of all spiritual failure, as it prevents us from seeing the abundance of divine love surrounding us."</p>
+                            <div class="citation">— Ignatian Insights</div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <h3>Vibe History Logs</h3>
+                        <div class="examen-history-list" id="examen-history-list">
+                            <p class="empty-state">No examen entries saved yet. Complete your first Examen to build your history!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 3: Discernment Coach (Spiritual Alignment Lab) -->
+            <section class="view-panel" id="view-discernment-coach">
+                <div class="discernment-layout grid-layout">
+                    <!-- Left: Decision Formulation & Consolations/Desolations Entry -->
+                    <div class="card glass-panel decision-entry">
+                        <h2>Spiritual Alignment Lab ✨</h2>
+                        <p class="section-intro">Weigh the subtle energetic signals in your decision-making. List and weigh **Consolations** (what boosts your faith, joy, connection, and hope) against **Desolations** (what drains, isolates, or stirs up fear).</p>
+
+                        <!-- Decision Formulation -->
+                        <div class="form-group">
+                            <label for="decision-text">What major decision are you aligning today?</label>
+                            <input type="text" id="decision-text" class="input-text" placeholder="e.g., Should I accept the fellowship opportunity to build tools in Rome?">
+                        </div>
+
+                        <div class="two-column-lists">
+                            <!-- Consolations List -->
+                            <div class="consolations-section">
+                                <h3 class="color-gold">Consolations ✨</h3>
+                                <p class="column-desc">Movements toward peace, deep joy, charity, structural freedom, and connection.</p>
+                                <div class="item-input-row">
+                                    <input type="text" id="consolation-input" placeholder="Add a consolation...">
+                                    <select id="consolation-weight" aria-label="Weight of Consolation">
+                                        <option value="1">Light (+1)</option>
+                                        <option value="3" selected>Moderate (+3)</option>
+                                        <option value="5">Deep (+5)</option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary btn-add" id="btn-add-consolation">+</button>
+                                </div>
+                                <ul class="discernment-list" id="list-consolations">
+                                    <!-- Dynamic content -->
+                                </ul>
+                            </div>
+
+                            <!-- Desolations List -->
+                            <div class="desolations-section">
+                                <h3 class="color-red">Desolations 🌪️</h3>
+                                <p class="column-desc">Movements toward isolation, anxiety, dryness, vanity, fear, or spiritual clutter.</p>
+                                <div class="item-input-row">
+                                    <input type="text" id="desolation-input" placeholder="Add a desolation...">
+                                    <select id="desolation-weight" aria-label="Weight of Desolation">
+                                        <option value="1">Light (-1)</option>
+                                        <option value="3" selected>Moderate (-3)</option>
+                                        <option value="5">Deep (-5)</option>
+                                    </select>
+                                    <button type="button" class="btn btn-danger btn-add" id="btn-add-desolation">+</button>
+                                </div>
+                                <ul class="discernment-list" id="list-desolations">
+                                    <!-- Dynamic content -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="discernment-actions">
+                            <button class="btn btn-secondary" id="btn-clear-discernment">Reset Board</button>
+                            <button class="btn btn-primary" id="btn-analyze-discernment">Analyze Alignment ⚡</button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Analysis Dashboard & Simulated Socratic AI Coach -->
+                    <div class="card glass-panel decision-analysis">
+                        <h2>Mindset Analysis</h2>
+                        
+                        <div class="analysis-meter-box">
+                            <h3>Spiritual Balance Indicator</h3>
+                            <div class="meter-container">
+                                <div class="meter-bar" id="analysis-meter">
+                                    <span class="meter-label" id="analysis-meter-text">Neutral (0)</span>
+                                </div>
+                            </div>
+                            <p class="meter-caption" id="meter-caption">Weigh your inputs to discover where the interior movements of your soul are drawing you.</p>
+                        </div>
+
+                        <hr class="divider">
+
+                        <!-- Socratic Companion -->
+                        <div class="socratic-coach-box">
+                            <div class="socratic-header-badge">
+                                <span class="socratic-badge-icon">⚖️</span>
+                                <span>Socratic Soul Companion</span>
+                            </div>
+                            <div class="ai-speech-bubble" id="socratic-chat-bubble">
+                                <p class="coach-text">"Welcome to the Alignment Lab. Input your decision question and list interior movements. I will analyze the spirits and challenge your motives Socratic-style."</p>
+                                <div class="coach-signature">— Socratic Companion</div>
+                            </div>
+                            
+                            <div class="socratic-actions hidden" id="socratic-response-actions">
+                                <p class="prompt-instruction">Log your thoughts below. How does this prompt resonate with you?</p>
+                                <textarea class="journal-input small-input" id="socratic-journal-input" placeholder="Dwell here, reflect, and write..."></textarea>
+                                <button class="btn btn-secondary" id="btn-save-socratic-reflection">Log Alignment Entry 🖋️</button>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <h3>Saved Alignment Cases</h3>
+                        <div class="saved-decisions-list" id="saved-decisions-list">
+                            <p class="empty-state">No saved discernment cases yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: Spiritual Exercises Dashboard (Soul Workouts) -->
+            <section class="view-panel" id="view-spiritual-exercises">
+                <div class="exercises-container grid-layout">
+                    <!-- Left Column: The 4 Weeks Stepper & Readings -->
+                    <div class="card glass-panel week-picker-card">
+                        <h2>The Four Soul Workouts ⚔️</h2>
+                        <p class="section-intro">Ignatius organized the Spiritual Exercises into four major weeks (stages). This represents an intense journey from spiritual detox into deep discipleship, sharing suffering, and ultimate love.</p>
+
+                        <div class="weeks-stepper">
+                            <button class="week-tab active" data-week="1">
+                                <span class="week-num">Level I</span>
+                                <span class="week-name">Detox & Mercy</span>
+                            </button>
+                            <button class="week-tab" data-week="2">
+                                <span class="week-num">Level II</span>
+                                <span class="week-name">The Calling</span>
+                            </button>
+                            <button class="week-tab" data-week="3">
+                                <span class="week-num">Level III</span>
+                                <span class="week-name">The Crucible</span>
+                            </button>
+                            <button class="week-tab" data-week="4">
+                                <span class="week-num">Level IV</span>
+                                <span class="week-name">Rise & Love</span>
+                            </button>
+                        </div>
+
+                        <div class="week-content-pane" id="week-content-pane">
+                            <!-- Week 1 Content (Default) -->
+                            <div class="week-detail active" data-week-content="1">
+                                <h3>Level I: Detoxing Attachments & Accepting Grace</h3>
+                                <p>Unpack the background noise and habits blocking your soul. Ditch "inordinate attachments" that restrict your freedom, and connect with the reality of absolute, infinite, and unconditional mercy.</p>
+                                
+                                <div class="spiritual-exercise-block">
+                                    <h4>Liturgical Vibe Check: Sacred Reading</h4>
+                                    <ul class="readings-list">
+                                        <li><strong>Luke 15:11-32</strong> — The Prodigal Son (Home-coming of mercy)</li>
+                                        <li><strong>Isaiah 43:1-7</strong> — "You are precious in my eyes, and I love you"</li>
+                                        <li><strong>Psalm 139</strong> — The God who searches and knows you completely</li>
+                                    </ul>
+                                </div>
+
+                                <div class="spiritual-exercise-block">
+                                    <h4>Soul Drill: The Colloquy</h4>
+                                    <p>St. Ignatius recommends concluding meditations with a <em>Colloquy</em>—speaking to Jesus or Mary as one friend speaks to another. Talk honestly about your chains, and rest in grace.</p>
+                                </div>
+                            </div>
+
+                            <!-- Week 2 Content -->
+                            <div class="week-detail" data-week-content="2">
+                                <h3>Level II: The Calling — Journeying with the King</h3>
+                                <p>Contemplate the active life of Jesus. Study his teachings, his style, and his interactions with the poor. Ask for the grace "to know Him more intimately, to love Him more intensely, and to follow Him more closely."</p>
+                                
+                                <div class="spiritual-exercise-block">
+                                    <h4>Liturgical Vibe Check: Sacred Reading</h4>
+                                    <ul class="readings-list">
+                                        <li><strong>Luke 1:26-38</strong> — The Annunciation (The bold 'Yes' of Mary)</li>
+                                        <li><strong>Mark 1:16-20</strong> — The Call of the First Disciples</li>
+                                        <li><strong>Matthew 5:1-12</strong> — The Beatitudes (The charter of the Kingdom)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="spiritual-exercise-block">
+                                    <h4>Soul Drill: Imaginative Contemplation</h4>
+                                    <p>Enter the scripture scene with all five senses. Watch the crowd, hear the wind, touch the dust. Position yourself directly in the scene as an active participant.</p>
+                                </div>
+                            </div>
+
+                            <!-- Week 3 Content -->
+                            <div class="week-detail" data-week-content="3">
+                                <h3>Level III: The Crucible — Standing in Solidarity</h3>
+                                <p>Accompany Jesus through Gethsemane, betrayal, trials, and the Cross. Pray for the grace of genuine sorrow and tears. Practice standing in absolute solidarity with all who suffer and are marginalized in our modern world.</p>
+                                
+                                <div class="spiritual-exercise-block">
+                                    <h4>Liturgical Vibe Check: Sacred Reading</h4>
+                                    <ul class="readings-list">
+                                        <li><strong>John 13:1-17</strong> — Washing of the Feet (Service and humility)</li>
+                                        <li><strong>Mark 14:32-42</strong> — Gethsemane (Agony and surrender)</li>
+                                        <li><strong>Luke 23:26-49</strong> — The Crucifixion (Standing at the foot of the cross)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="spiritual-exercise-block">
+                                    <h4>Soul Drill: Bearing Grief</h4>
+                                    <p>Observe how the divine hides itself during suffering, yet remains present. We pray for deep empathy for those who grieve and suffer under systemic injustice.</p>
+                                </div>
+                            </div>
+
+                            <!-- Week 4 Content -->
+                            <div class="week-detail" data-week-content="4">
+                                <h3>Level IV: The Sunrise — Rising and Living in Love</h3>
+                                <p>Swell with the pure joy of the Resurrection. End the Exercises with the famous *Contemplation to Attain Love*, realizing God is present in all created things, working tirelessly for us in the universe.</p>
+                                
+                                <div class="spiritual-exercise-block">
+                                    <h4>Liturgical Vibe Check: Sacred Reading</h4>
+                                    <ul class="readings-list">
+                                        <li><strong>John 20:1-18</strong> — The Resurrection (Meeting Mary Magdalene)</li>
+                                        <li><strong>Luke 24:13-35</strong> — Road to Emmaus (Recognizing Christ in the breaking of bread)</li>
+                                        <li><strong>John 21:1-19</strong> — Breakfast by the Sea ("Feed my sheep")</li>
+                                    </ul>
+                                </div>
+
+                                <div class="spiritual-exercise-block">
+                                    <h4>Soul Drill: Suscipe Prayer</h4>
+                                    <p>Surrender your liberty back in gratitude: <em>"Take, Lord, and receive all my liberty, my memory, my understanding, and my entire will. You have given them to me; to You I return them..."</em></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Week Logging & Past entries -->
+                    <div class="card glass-panel week-logging-card">
+                        <h2>Workout Journal 🖋️</h2>
+                        <p class="section-intro">Record your thoughts, prompt breakthroughs, and interior feelings during yourLevel meditations.</p>
+
+                        <div class="form-group">
+                            <label for="exercise-title">Meditation / Scripture passage:</label>
+                            <input type="text" id="exercise-title" class="input-text" placeholder="e.g., Imaginative Contemplation on Mark 1:16">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exercise-journal">Breakthroughs & Movements:</label>
+                            <textarea class="journal-input medium-input" id="exercise-journal" placeholder="What moved your soul today? Where did you feel resistance? Speak honestly..."></textarea>
+                        </div>
+
+                        <div class="discernment-actions">
+                            <button class="btn btn-primary" id="btn-save-exercise">Save Journal Entry ⚡</button>
+                        </div>
+
+                        <hr class="divider">
+
+                        <h3>Your Workout Logs</h3>
+                        <div class="exercise-logs-list" id="exercise-logs-list">
+                            <p class="empty-state">No exercise journals recorded yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: Soul Space Profile (Authentication & Streaks Dashboard) -->
+            <section class="view-panel" id="view-soul-space">
+                <div class="profile-container grid-layout">
+                    
+                    <!-- Left: Authentication Forms (Toggled based on login status) -->
+                    <div class="card glass-panel auth-card" id="auth-forms-container">
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" id="tab-login-btn">Log In</button>
+                            <button class="auth-tab" id="tab-signup-btn">Sign Up</button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div class="auth-form active" id="form-login">
+                            <h2>Welcome back to Soul Space</h2>
+                            <p class="section-intro">Sign in to sync your Daily Vibe checks, Spiritual Momentum streaks, and saved decision cases.</p>
+                            
+                            <form id="login-form-element" onsubmit="event.preventDefault();">
+                                <div class="form-group">
+                                    <label for="login-username">Soul Tag (Username)</label>
+                                    <input type="text" id="login-username" class="input-text" placeholder="e.g., contemplative_soul" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="login-password">Passcode</label>
+                                    <input type="password" id="login-password" class="input-text" placeholder="••••••••" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary full-width" id="btn-login-submit">Authenticate ⚡</button>
+                            </form>
+
+                            <div class="social-auth-divider">
+                                <span>or continue with</span>
+                            </div>
+
+                            <div class="social-auth-buttons">
+                                <button class="btn btn-social btn-google" onclick="app.handleSocialAuth('Google')">
+                                    <svg viewBox="0 0 24 24" class="social-icon-svg"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.2-5.136 4.2A5.8 5.8 0 0 1 8.2 12.8a5.8 5.8 0 0 1 5.79-5.8c1.47 0 2.8.54 3.82 1.43l3.15-3.15C19.04 3.52 15.9 2 12.24 2 6.58 2 2 6.58 2 12.24s4.58 10.24 10.24 10.24c5.79 0 9.93-3.98 9.93-9.93 0-.61-.06-1.2-.17-1.77H12.24Z"/></svg>
+                                    <span>Google</span>
+                                </button>
+                                <button class="btn btn-social btn-whatsapp" onclick="app.handleSocialAuth('WhatsApp')">
+                                    <svg viewBox="0 0 24 24" class="social-icon-svg"><path fill="#25D366" d="M12.004 2C6.48 2 2.002 6.477 2.002 12c0 1.91.533 3.69 1.45 5.22L2 22l4.95-1.42c1.47.8 3.14 1.25 4.914 1.25 5.523 0 10.002-4.477 10.002-10S17.527 2 12.004 2zm5.79 13.92c-.25.7-1.44 1.34-2.01 1.43-.5.08-1.13.15-3.23-.71-2.7-1.12-4.42-3.88-4.56-4.06-.13-.18-1.09-1.45-1.09-2.76 0-1.31.68-1.96.93-2.22.25-.26.54-.33.72-.33.18 0 .36 0 .52.01.17 0 .39-.06.61.47.22.54.76 1.86.83 2 .07.13.11.29.02.46-.09.18-.18.29-.36.5-.18.21-.37.47-.53.63-.18.17-.37.36-.16.72.21.36.93 1.54 2 2.49 1.38 1.23 2.54 1.61 2.9 1.79.36.18.57.15.79-.07.22-.22.93-1.09 1.18-1.46.25-.36.5-.3.83-.18.33.12 2.1 1 2.46 1.18.36.18.6.27.69.42.09.15.09.87-.16 1.57z"/></svg>
+                                    <span>WhatsApp</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Signup Form -->
+                        <div class="auth-form" id="form-signup">
+                            <h2>Initialize your Soul Space</h2>
+                            <p class="section-intro">Create a local, private account to track your spiritual habits and cultivate an intentional life.</p>
+                            
+                            <form id="signup-form-element" onsubmit="event.preventDefault();">
+                                <div class="form-group">
+                                    <label for="signup-username">Create a Soul Tag</label>
+                                    <input type="text" id="signup-username" class="input-text" placeholder="e.g., ad_majorem_gloriam" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signup-avatar">Choose an Avatar Element</label>
+                                    <select id="signup-avatar" class="input-text" aria-label="Avatar Element selector">
+                                        <option value="🔥 Fire">🔥 Sacred Flame (Ignis)</option>
+                                        <option value="🕯️ Candle">🕯️ Candle (Petition)</option>
+                                        <option value="✨ Star">✨ Star (Consolation)</option>
+                                        <option value="🕊️ Dove">🕊️ Dove (Peace)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signup-password">Passcode</label>
+                                    <input type="password" id="signup-password" class="input-text" placeholder="••••••••" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary full-width" id="btn-signup-submit">Create Account 🕊️</button>
+                            </form>
+
+                            <div class="social-auth-divider">
+                                <span>or register with</span>
+                            </div>
+
+                            <div class="social-auth-buttons">
+                                <button class="btn btn-social btn-google" onclick="app.handleSocialAuth('Google')">
+                                    <svg viewBox="0 0 24 24" class="social-icon-svg"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.2-5.136 4.2A5.8 5.8 0 0 1 8.2 12.8a5.8 5.8 0 0 1 5.79-5.8c1.47 0 2.8.54 3.82 1.43l3.15-3.15C19.04 3.52 15.9 2 12.24 2 6.58 2 2 6.58 2 12.24s4.58 10.24 10.24 10.24c5.79 0 9.93-3.98 9.93-9.93 0-.61-.06-1.2-.17-1.77H12.24Z"/></svg>
+                                    <span>Google</span>
+                                </button>
+                                <button class="btn btn-social btn-whatsapp" onclick="app.handleSocialAuth('WhatsApp')">
+                                    <svg viewBox="0 0 24 24" class="social-icon-svg"><path fill="#25D366" d="M12.004 2C6.48 2 2.002 6.477 2.002 12c0 1.91.533 3.69 1.45 5.22L2 22l4.95-1.42c1.47.8 3.14 1.25 4.914 1.25 5.523 0 10.002-4.477 10.002-10S17.527 2 12.004 2zm5.79 13.92c-.25.7-1.44 1.34-2.01 1.43-.5.08-1.13.15-3.23-.71-2.7-1.12-4.42-3.88-4.56-4.06-.13-.18-1.09-1.45-1.09-2.76 0-1.31.68-1.96.93-2.22.25-.26.54-.33.72-.33.18 0 .36 0 .52.01.17 0 .39-.06.61.47.22.54.76 1.86.83 2 .07.13.11.29.02.46-.09.18-.18.29-.36.5-.18.21-.37.47-.53.63-.18.17-.37.36-.16.72.21.36.93 1.54 2 2.49 1.38 1.23 2.54 1.61 2.9 1.79.36.18.57.15.79-.07.22-.22.93-1.09 1.18-1.46.25-.36.5-.3.83-.18.33.12 2.1 1 2.46 1.18.36.18.6.27.69.42.09.15.09.87-.16 1.57z"/></svg>
+                                    <span>WhatsApp</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Alternate: Logged In Account Dashboard -->
+                    <div class="card glass-panel profile-dashboard-card hidden" id="profile-dashboard">
+                        <div class="profile-header-card">
+                            <div class="profile-avatar-circle" id="profile-avatar-circle">🔥</div>
+                            <div class="profile-identity">
+                                <h2 id="profile-display-username">contemplative_soul</h2>
+                                <span class="profile-join-date" id="profile-display-joined">Joined May 23, 2026</span>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <h3>Your Spiritual Vital Stats</h3>
+                        <div class="vital-stats-grid">
+                            <div class="stat-box glass-panel">
+                                <span class="stat-value" id="stat-examen-count">0</span>
+                                <span class="stat-label">Vibe Checks</span>
+                            </div>
+                            <div class="stat-box glass-panel">
+                                <span class="stat-value" id="stat-decision-count">0</span>
+                                <span class="stat-label">Alignments</span>
+                            </div>
+                            <div class="stat-box glass-panel">
+                                <span class="stat-value" id="stat-exercise-count">0</span>
+                                <span class="stat-label">Workout Logs</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-actions">
+                            <button class="btn btn-secondary" id="btn-logout">Sign Out</button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Dynamic Spiritual Momentum (Streak) Dashboard -->
+                    <div class="card glass-panel streak-dashboard-card">
+                        <h2>Spiritual Momentum 🔥</h2>
+                        <p class="section-intro">Ignatian daily reflection cultivates a strong interior habit. Keep your streak alive by logging a Daily Vibe Check or reflecting on an Exercises meditation!</p>
+
+                        <!-- Dynamic Glowing Streak Card -->
+                        <div class="streak-fire-card" id="streak-fire-card">
+                            <div class="streak-flame-container">
+                                <div class="glowing-flame" id="glowing-flame-render">🔥</div>
+                            </div>
+                            <h3 id="streak-level-title">Spark Level</h3>
+                            <span class="streak-day-count" id="streak-days-number">0 Consecutive Days</span>
+                            <p class="streak-description-text" id="streak-level-description">Your spirit is quiet. Complete your first Examen or log a meditation workout to kindle your internal flame!</p>
+                        </div>
+
+                        <hr class="divider">
+
+                        <h3>Cultivate the Momentum</h3>
+                        <p class="streak-tips">
+                            💡 **Ignatian Tip:** St. Ignatius loved consistency over length. Taking 5 focused minutes every night for a Daily Vibe Check is far better than a 2-hour meditation once a month. Make it a daily ritual.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Social Auth Simulated Modal -->
+    <div class="social-auth-modal-overlay hidden" id="social-modal">
+        <div class="social-auth-modal glass-panel">
+            <div class="modal-spinner-container">
+                <div class="pulse-loader"></div>
+            </div>
+            <h2 class="modal-title" id="social-modal-title">Connecting to Google...</h2>
+            <p class="modal-desc" id="social-modal-desc">Authenticating secure handshake with Google OAuth provider. Please stand by...</p>
+        </div>
+    </div>
+
+    <!-- Notification system for app alerts -->
+    <div class="notification-toast hidden" id="toast">Notification text</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
