@@ -127,6 +127,9 @@
                         <span class="streak-flame-icon">🔥</span>
                         <span id="header-streak-count">0 Days</span>
                     </div>
+                    <button type="button" class="btn btn-secondary btn-theme-toggle" id="btn-theme-toggle" title="Toggle Light/Dark Theme" style="padding: 0.6rem 0.9rem; font-size: 1.1rem; line-height: 1;">
+                        <span class="theme-icon">☀️</span>
+                    </button>
                     <button class="btn btn-secondary" id="btn-reset-data">Reset All</button>
                 </div>
             </header>
@@ -533,8 +536,8 @@
                             
                             <form id="login-form-element" onsubmit="event.preventDefault();">
                                 <div class="form-group">
-                                    <label for="login-username">Soul Tag (Username)</label>
-                                    <input type="text" id="login-username" class="input-text" placeholder="e.g., contemplative_soul" required>
+                                    <label for="login-username">Email or Soul Tag</label>
+                                    <input type="text" id="login-username" class="input-text" placeholder="e.g., pilgrim@holyplace.org" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="login-password">Passcode</label>
@@ -568,6 +571,10 @@
                                 <div class="form-group">
                                     <label for="signup-username">Create a Soul Tag</label>
                                     <input type="text" id="signup-username" class="input-text" placeholder="e.g., ad_majorem_gloriam" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signup-email">Email Address</label>
+                                    <input type="email" id="signup-email" class="input-text" placeholder="e.g., pilgrim@holyplace.org" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="signup-avatar">Choose an Avatar Element</label>
@@ -671,6 +678,26 @@
             </div>
             <h2 class="modal-title" id="social-modal-title">Connecting to Google...</h2>
             <p class="modal-desc" id="social-modal-desc">Authenticating secure handshake with Google OAuth provider. Please stand by...</p>
+        </div>
+    </div>
+
+    <!-- Real-time OTP / Verification Simulated Modal -->
+    <div class="social-auth-modal-overlay hidden" id="otp-modal">
+        <div class="social-auth-modal glass-panel" style="max-width: 400px; text-align: center;">
+            <div class="modal-spinner-container" style="margin-bottom: 1.2rem; display: flex; justify-content: center;">
+                <span style="font-size: 3rem; filter: drop-shadow(0 0 10px var(--accent-gold-glow));">🛡️</span>
+            </div>
+            <h2 class="modal-title" id="otp-modal-title">Verification Code</h2>
+            <p class="modal-desc" id="otp-modal-desc" style="margin-bottom: 1.5rem;">We've sent a 6-digit confirmation code. Please enter it below to authorize your Soul Space.</p>
+            
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                <input type="text" id="otp-input" class="input-text" placeholder="e.g., 123456" maxlength="6" style="text-align: center; font-size: 1.8rem; font-family: var(--font-heading); letter-spacing: 6px; font-weight: 700; width: 80%; margin: 0 auto; padding: 0.5rem 0;">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button type="button" class="btn btn-secondary" id="btn-otp-cancel" style="padding: 0.6rem 1.2rem;">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btn-otp-verify" style="padding: 0.6rem 1.2rem;">Verify & Lock In ⚡</button>
+            </div>
         </div>
     </div>
 

@@ -43,6 +43,45 @@
     --shadow-neon: 0 16px 50px -10px rgba(139, 92, 246, 0.15), 0 0 1px 1px var(--border-glass) inset;
 }
 
+.light-theme {
+    /* Color Tokens (Gen Z neon parchment palette) */
+    --bg-obsidian: hsl(240, 20%, 98%);
+    --bg-card: hsla(240, 15%, 94%, 0.7);
+    --bg-sidebar: hsla(240, 18%, 95%, 0.9);
+    
+    --border-glass: hsla(240, 10%, 0%, 0.08);
+    --border-glass-gold: hsla(45, 100%, 40%, 0.15);
+    --border-glass-violet: hsla(262, 83%, 50%, 0.15);
+    --border-glass-red: hsla(355, 78%, 50%, 0.12);
+    
+    --accent-gold: hsl(40, 95%, 45%);
+    --accent-gold-hover: hsl(40, 95%, 35%);
+    --accent-gold-glow: hsla(40, 95%, 45%, 0.2);
+    
+    --accent-violet: hsl(262, 80%, 52%);
+    --accent-violet-hover: hsl(262, 80%, 42%);
+    --accent-violet-glow: hsla(262, 80%, 52%, 0.2);
+    
+    --text-primary: hsl(240, 20%, 12%);
+    --text-secondary: hsl(240, 10%, 30%);
+    --text-muted: hsl(240, 8%, 52%);
+    
+    --shadow-neon: 0 16px 50px -10px rgba(139, 92, 246, 0.06), 0 0 1px 1px var(--border-glass) inset;
+}
+
+.light-theme .aurora-glow {
+    opacity: 0.08;
+}
+
+/* Smooth Global Theme Transitions */
+body, aside, main, header, section, div, .card, .btn, .nav-item, input, select, textarea, h1, h2, h3, h4, p, span, li, svg {
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* ==========================================================================
    Base Elements & Reset
    ========================================================================== */

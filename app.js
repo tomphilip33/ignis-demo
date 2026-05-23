@@ -10,6 +10,8 @@ const app = {
     currentView: 'pitch-hub',
     currentExamenStep: 1,
     activeSpiritualWeek: 1,
+    tempOTP: null,
+    pendingUser: null,
     
     // User Authentication Session
     session: null,
@@ -34,6 +36,7 @@ const app = {
 
     // Initialize Application
     init() {
+        this.loadSavedTheme();
         this.setupDateTime();
         this.setupEventListeners();
         this.loadSession();
@@ -124,6 +127,13 @@ const app = {
         document.getElementById('btn-login-submit').addEventListener('click', () => this.handleLogin());
         document.getElementById('btn-signup-submit').addEventListener('click', () => this.handleSignup());
         document.getElementById('btn-logout').addEventListener('click', () => this.handleLogout());
+
+        // Theme Toggle action
+        document.getElementById('btn-theme-toggle').addEventListener('click', () => this.toggleTheme());
+
+        // Simulated OTP Verification actions
+        document.getElementById('btn-otp-cancel').addEventListener('click', () => this.hideOTPModal());
+        document.getElementById('btn-otp-verify').addEventListener('click', () => this.verifyOTP());
     },
 
     // Single Page App View Navigator
@@ -176,48 +186,59 @@ const app = {
 
     handleSignup() {
         const usernameInput = document.getElementById('signup-username');
+        const emailInput = document.getElementById('signup-email');
         const passwordInput = document.getElementById('signup-password');
         const avatarSelect = document.getElementById('signup-avatar');
         
         const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
         const password = passwordInput.value;
         const avatar = avatarSelect.value;
 
-        if (!username || !password) {
-            alert('Please supply a Soul Tag and a passcode.');
+        if (!username || !email || !password) {
+            alert('Please supply a Soul Tag, an Email, and a passcode.');
+            return;
+        }
+
+        const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailReg.test(email)) {
+            alert('Please enter a valid email address (e.g. pilgrim@holyplace.org).');
             return;
         }
 
         const users = JSON.parse(localStorage.getItem('ignis_users') || '[]');
-        const exists = users.some(u => u.username.toLowerCase() === username.toLowerCase());
+        const exists = users.some(u => u.username.toLowerCase() === username.toLowerCase() || (u.email && u.email.toLowerCase() === email.toLowerCase()));
 
         if (exists) {
-            alert('That Soul Tag is already registered! Please pick another one.');
+            alert('That Soul Tag or Email Address is already registered! Please pick another.');
             return;
         }
 
+        // Prepare pending session
         const newUser = {
             username,
+            email,
             password,
             avatar,
-            streak: 0,
-            lastLoggedExamen: null,
+            streak: 1, // Pre-seed 1 day streak for satisfying visual feedback!
+            lastLoggedExamen: new Date().toDateString(),
             joined: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
         };
 
-        users.push(newUser);
-        localStorage.setItem('ignis_users', JSON.stringify(users));
+        // Generate 6-digit confirmation OTP
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        this.pendingUser = newUser;
+        this.tempOTP = code;
 
-        this.session = newUser;
-        localStorage.setItem('ignis_session', JSON.stringify(newUser));
-        
-        this.showToast('Soul Space Initialized! Account Active.');
-        
+        // Display beautiful verification alert
+        document.getElementById('otp-modal').classList.remove('hidden');
+        document.getElementById('otp-input').value = '';
+        this.showToast(`🔥 Security OTP Sent: ${code}`);
+
+        // Clean inputs
         usernameInput.value = '';
+        emailInput.value = '';
         passwordInput.value = '';
-        
-        this.updateProfileDashboard();
-        this.updateStreakDisplay();
     },
 
     handleLogin() {
@@ -228,29 +249,31 @@ const app = {
         const password = passwordInput.value;
 
         if (!username || !password) {
-            alert('Please supply your Soul Tag and passcode.');
+            alert('Please supply your Email/Soul Tag and passcode.');
             return;
         }
 
         const users = JSON.parse(localStorage.getItem('ignis_users') || '[]');
-        const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+        const user = users.find(u => (u.username.toLowerCase() === username.toLowerCase() || (u.email && u.email.toLowerCase() === username.toLowerCase())) && u.password === password);
 
         if (!user) {
-            alert('Invalid Soul Tag or Passcode. Please try again.');
+            alert('Invalid credentials or passcode. Please try again.');
             return;
         }
 
-        this.session = user;
-        localStorage.setItem('ignis_session', JSON.stringify(user));
-        
-        this.showToast(`Welcome back, ${user.username}! ✨`);
-        
+        // Trigger secure OTP flow for login as well (making it highly professional!)
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        this.pendingUser = user;
+        this.tempOTP = code;
+
+        document.getElementById('otp-modal').classList.remove('hidden');
+        document.getElementById('otp-input').value = '';
+        this.showToast(`🔥 Security OTP Sent: ${code}`);
+
         usernameInput.value = '';
         passwordInput.value = '';
-        
-        this.updateProfileDashboard();
-        this.updateStreakDisplay();
     },
+
 
     handleLogout() {
         this.session = null;
@@ -1100,6 +1123,65 @@ Logged Reflection:
         if (!localStorage.getItem('guest_streak') && !localStorage.getItem('ignis_session')) {
             localStorage.setItem('guest_streak', '1');
             localStorage.setItem('guest_last_logged', new Date().toDateString());
+        }
+    },
+
+    // ==========================================================================
+    // THEME & DYNAMIC REAL-TIME OTP AUTH ENHANCEMENTS
+    // ==========================================================================
+    loadSavedTheme() {
+        const theme = localStorage.getItem('ignis_theme') || 'dark';
+        const toggleIcon = document.querySelector('#btn-theme-toggle .theme-icon');
+        
+        if (theme === 'light') {
+            document.body.classList.add('light-theme');
+            if (toggleIcon) toggleIcon.textContent = '🌙';
+        } else {
+            document.body.classList.remove('light-theme');
+            if (toggleIcon) toggleIcon.textContent = '☀️';
+        }
+    },
+
+    toggleTheme() {
+        const isLight = document.body.classList.toggle('light-theme');
+        localStorage.setItem('ignis_theme', isLight ? 'light' : 'dark');
+        
+        const toggleIcon = document.querySelector('#btn-theme-toggle .theme-icon');
+        if (toggleIcon) toggleIcon.textContent = isLight ? '🌙' : '☀️';
+        
+        this.showToast(isLight ? 'Light parchment theme active 🕯️' : 'Obsidian dark theme active 🔥');
+    },
+
+    hideOTPModal() {
+        document.getElementById('otp-modal').classList.add('hidden');
+        document.getElementById('otp-input').value = '';
+        this.tempOTP = null;
+        this.pendingUser = null;
+    },
+
+    verifyOTP() {
+        const otpInput = document.getElementById('otp-input');
+        const otpVal = otpInput.value.trim();
+
+        if (otpVal === this.tempOTP) {
+            const users = JSON.parse(localStorage.getItem('ignis_users') || '[]');
+
+            // If it's a new signup (not yet in users db)
+            const exists = users.some(u => u.username.toLowerCase() === this.pendingUser.username.toLowerCase());
+            if (!exists) {
+                users.push(this.pendingUser);
+                localStorage.setItem('ignis_users', JSON.stringify(users));
+            }
+
+            this.session = this.pendingUser;
+            localStorage.setItem('ignis_session', JSON.stringify(this.pendingUser));
+
+            this.hideOTPModal();
+            this.showToast(`Soul Space Authorized! Welcome @${this.session.username} ✨`);
+            this.updateProfileDashboard();
+            this.updateStreakDisplay();
+        } else {
+            alert('Incorrect security code. Please check your notifications at the top of your screen.');
         }
     }
 };
