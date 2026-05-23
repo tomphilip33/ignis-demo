@@ -1691,7 +1691,7 @@ select.input-text {
     box-shadow: 0 0 20px var(--accent-violet-glow), var(--shadow-neon);
     padding: 0.8rem 1.6rem;
     border-radius: 4px;
-    color: var(--text-primary);
+    color: #f3f4f6;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.82rem;
     font-weight: 500;
